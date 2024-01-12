@@ -1,5 +1,7 @@
 ## Welcome!
-This is Amina Muhic's student repository for BIS 15L, **Introduction to Data Science for Biologists** at University of California, Davis. Here you'll find my lab and homework assignments for the course.
+This is Amina Muhic's student repository for BIS 15L,
+**Introduction to Data Science for Biologists** at University of California, 
+Davis. Here you'll find my lab and homework assignments for the course.
 
 ### Contact Info
 [Amina Muhic](mailto:aamuhic@ucdavis.edu)
