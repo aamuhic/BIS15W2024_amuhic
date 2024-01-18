@@ -164,7 +164,7 @@ scientist_avg
 ## 34.19375 33.93125 32.68750 33.60417
 ```
 
-It looks like Jill had the highest tempature recording on average!
+It looks like Jill had the highest temperature recordings on average!
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.  
