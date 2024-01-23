@@ -1,0 +1,35 @@
+---
+output: 
+  html_document: 
+    keep_md: yes
+---
+### load libraries
+```{r}
+library("tidyverse")
+library(palmerpenguins)
+```
+
+### find dimensions of `penguins`
+```{r}
+glimpse(penguins)
+```
+### find variables in `penguins`
+```{r}
+names(penguins)
+```
+
+
+### how many individuals sampled on each island?
+```{r}
+table(penguins$island)
+```
+```{r}
+summary(penguins$island)
+```
+
+### find the mean body mass of all penguins
+```{r}
+mean(penguins$body_mass_g, na.rm = T)
+```
+
+
