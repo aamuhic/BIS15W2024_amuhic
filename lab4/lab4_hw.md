@@ -1,7 +1,7 @@
 ---
 title: "Lab 4 Homework"
 author: "Amina Muhic"
-date: "2024-01-23"
+date: "2024-01-25"
 output:
   html_document: 
     theme: spacelab
@@ -74,6 +74,7 @@ names(homerange)
 ## [21] "preymass"                   "log10.preymass"            
 ## [23] "PPMR"                       "prey.size.reference"
 ```
+
 
 ```r
 glimpse(homerange)
@@ -233,6 +234,24 @@ levels(homerange$order)
 
 ```r
 taxa <- select(homerange, "taxon", "common.name", "class", "order", "family", "genus", "species")
+taxa
+```
+
+```
+## # A tibble: 569 × 7
+##    taxon         common.name             class        order family genus species
+##    <fct>         <chr>                   <chr>        <fct> <chr>  <chr> <chr>  
+##  1 lake fishes   american eel            actinoptery… angu… angui… angu… rostra…
+##  2 river fishes  blacktail redhorse      actinoptery… cypr… catos… moxo… poecil…
+##  3 river fishes  central stoneroller     actinoptery… cypr… cypri… camp… anomal…
+##  4 river fishes  rosyside dace           actinoptery… cypr… cypri… clin… fundul…
+##  5 river fishes  longnose dace           actinoptery… cypr… cypri… rhin… catara…
+##  6 river fishes  muskellunge             actinoptery… esoc… esoci… esox  masqui…
+##  7 marine fishes pollack                 actinoptery… gadi… gadid… poll… pollac…
+##  8 marine fishes saithe                  actinoptery… gadi… gadid… poll… virens 
+##  9 marine fishes lined surgeonfish       actinoptery… perc… acant… acan… lineat…
+## 10 marine fishes orangespine unicornfish actinoptery… perc… acant… naso  litura…
+## # ℹ 559 more rows
 ```
 
 **5. The variable `taxon` identifies the common name groups of the species represented in `homerange`. Make a table the shows the counts for each of these `taxon`.**  
