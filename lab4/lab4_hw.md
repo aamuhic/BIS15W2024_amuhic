@@ -5,7 +5,7 @@ date: "2024-01-25"
 output:
   html_document: 
     theme: spacelab
-    keep_md: true
+    keep_md: yes
 ---
 
 
@@ -284,14 +284,90 @@ table(homerange$trophic.guild)
 
 **7. Make two new data frames, one which is restricted to carnivores and another that is restricted to herbivores.**  
 
+```r
+carnivores <- filter(homerange, trophic.guild == "carnivore")
+carnivores
+```
+
+```
+## # A tibble: 342 × 24
+##    taxon        common.name class order family genus species primarymethod N    
+##    <fct>        <chr>       <chr> <fct> <chr>  <chr> <chr>   <chr>         <chr>
+##  1 lake fishes  american e… acti… angu… angui… angu… rostra… telemetry     16   
+##  2 river fishes blacktail … acti… cypr… catos… moxo… poecil… mark-recaptu… <NA> 
+##  3 river fishes central st… acti… cypr… cypri… camp… anomal… mark-recaptu… 20   
+##  4 river fishes rosyside d… acti… cypr… cypri… clin… fundul… mark-recaptu… 26   
+##  5 river fishes longnose d… acti… cypr… cypri… rhin… catara… mark-recaptu… 17   
+##  6 river fishes muskellunge acti… esoc… esoci… esox  masqui… telemetry     5    
+##  7 marine fish… pollack     acti… gadi… gadid… poll… pollac… telemetry     2    
+##  8 marine fish… saithe      acti… gadi… gadid… poll… virens  telemetry     2    
+##  9 marine fish… giant trev… acti… perc… caran… cara… ignobi… telemetry     4    
+## 10 lake fishes  rock bass   acti… perc… centr… ambl… rupest… mark-recaptu… 16   
+## # ℹ 332 more rows
+## # ℹ 15 more variables: mean.mass.g <dbl>, log10.mass <dbl>,
+## #   alternative.mass.reference <chr>, mean.hra.m2 <dbl>, log10.hra <dbl>,
+## #   hra.reference <chr>, realm <chr>, thermoregulation <chr>, locomotion <chr>,
+## #   trophic.guild <chr>, dimension <dbl>, preymass <dbl>, log10.preymass <dbl>,
+## #   PPMR <dbl>, prey.size.reference <chr>
+```
+
+
+```r
+herbivores <- filter(homerange, trophic.guild == "herbivore")
+herbivores
+```
+
+```
+## # A tibble: 227 × 24
+##    taxon        common.name class order family genus species primarymethod N    
+##    <fct>        <chr>       <chr> <fct> <chr>  <chr> <chr>   <chr>         <chr>
+##  1 marine fish… lined surg… acti… perc… acant… acan… lineat… direct obser… <NA> 
+##  2 marine fish… orangespin… acti… perc… acant… naso  litura… telemetry     8    
+##  3 marine fish… bluespine … acti… perc… acant… naso  unicor… telemetry     7    
+##  4 marine fish… redlip ble… acti… perc… blenn… ophi… atlant… direct obser… 20   
+##  5 marine fish… bermuda ch… acti… perc… kypho… kyph… sectat… telemetry     11   
+##  6 marine fish… cherubfish  acti… perc… pomac… cent… argi    direct obser… <NA> 
+##  7 marine fish… damselfish  acti… perc… pomac… chro… chromis direct obser… <NA> 
+##  8 marine fish… twinspot d… acti… perc… pomac… chry… biocel… direct obser… 18   
+##  9 marine fish… wards dams… acti… perc… pomac… poma… wardi   direct obser… <NA> 
+## 10 marine fish… australian… acti… perc… pomac… steg… apical… direct obser… <NA> 
+## # ℹ 217 more rows
+## # ℹ 15 more variables: mean.mass.g <dbl>, log10.mass <dbl>,
+## #   alternative.mass.reference <chr>, mean.hra.m2 <dbl>, log10.hra <dbl>,
+## #   hra.reference <chr>, realm <chr>, thermoregulation <chr>, locomotion <chr>,
+## #   trophic.guild <chr>, dimension <dbl>, preymass <dbl>, log10.preymass <dbl>,
+## #   PPMR <dbl>, prey.size.reference <chr>
+```
 
 **8. Do herbivores or carnivores have, on average, a larger `mean.hra.m2`? Remove any NAs from the data.**  
 
+```r
+mean(herbivores$mean.hra.m2, na.rm = T)
+```
+
+```
+## [1] 34137012
+```
 
 
+```r
+mean(carnivores$mean.hra.m2, na.rm = T)
+```
+
+```
+## [1] 13039918
+```
 
 **9. Make a new dataframe `owls` that is limited to the mean mass, log10 mass, family, genus, and species of owls in the database. Which is the smallest owl? What is its common name? Do a little bit of searching online to see what you can learn about this species and provide a link below** 
 
+```r
+homerange_transformed <- select(homerange, "mean.mass.g", "log10.mass", "family", "genus", "species")
+```
+
+
+```r
+owls <- filter(homerange_transformed, family == "strigidae" ) # try pipe
+```
 
 **10. As measured by the data, which bird species has the largest homerange? Show all of your work, please. Look this species up online and tell me about it!**.  
 

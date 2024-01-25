@@ -1,0 +1,32 @@
+---
+output: 
+  html_document: 
+    keep_md: yes
+---
+```{r}
+library(tidyverse)
+```
+
+1. load the data
+```{r}
+fish <- readr::read_csv("data/Gaeta_etal_CLC_data.csv")
+```
+2. transform `fish` data to only include 2 variables: lakeid and length
+```{r}
+fishlength <- select(fish, "lakeid", "length")
+fishlength
+```
+* only use `data.frame` if you're working with raw data - don't need to here since `fish` is already a data frame..
+
+3. filter `fish` for fish from lake BO
+```{r}
+bo_fish <- filter(fish, lakeid == "BO")
+bo_fish
+```
+* might be better to categorize as factor: `fish$lakeid <- as.factor(fish$lakeid)` before you filter
+
+4. what is the mean length of fish from lake BO?
+```{r}
+mean(bo_fish$length)
+```
+
