@@ -5,7 +5,7 @@ date: "2024-01-25"
 output:
   html_document: 
     theme: spacelab
-    keep_md: yes
+    keep_md: true
 ---
 
 
@@ -357,20 +357,62 @@ mean(carnivores$mean.hra.m2, na.rm = T)
 ```
 ## [1] 13039918
 ```
+Herbivores have, on average, a larger `mean.hra.2`
 
 **9. Make a new dataframe `owls` that is limited to the mean mass, log10 mass, family, genus, and species of owls in the database. Which is the smallest owl? What is its common name? Do a little bit of searching online to see what you can learn about this species and provide a link below** 
 
 ```r
-homerange_transformed <- select(homerange, "mean.mass.g", "log10.mass", "family", "genus", "species")
+owl <- filter(homerange, order == "strigiformes")
+owl <- select(owl, mean.mass.g, log10.mass, family, genus, species)
 ```
 
 
 ```r
-owls <- filter(homerange_transformed, family == "strigidae" ) # try pipe
+arrange(owl, mean.mass.g)
 ```
+
+```
+## # A tibble: 9 × 5
+##   mean.mass.g log10.mass family    genus      species    
+##         <dbl>      <dbl> <chr>     <chr>      <chr>      
+## 1        61.3       1.79 strigidae glaucidium passerinum 
+## 2       119         2.08 strigidae aegolius   funereus   
+## 3       156.        2.19 strigidae athene     noctua     
+## 4       252         2.40 strigidae asio       otus       
+## 5       285         2.45 tytonidae tyto       alba       
+## 6       519         2.72 strigidae strix      aluco      
+## 7      1510         3.18 strigidae bubo       virginianus
+## 8      1920         3.28 strigidae nyctea     scandiaca  
+## 9      2191         3.34 strigidae bubo       bubo
+```
+Glaucidium passerinum, aka [the Eurasian pygmy owl](https://en.wikipedia.org/wiki/Eurasian_pygmy_owl), is the smallest in terms of mass. I learned that the Eurasian pygmy owl is a sedentary species!
 
 **10. As measured by the data, which bird species has the largest homerange? Show all of your work, please. Look this species up online and tell me about it!**.  
 
+```r
+homerange %>% 
+  select(taxon, common.name, genus, species, mean.hra.m2) %>%
+  filter(taxon == "birds") %>% 
+  arrange(desc(mean.hra.m2))
+```
+
+```
+## # A tibble: 140 × 5
+##    taxon common.name            genus        species      mean.hra.m2
+##    <fct> <chr>                  <chr>        <chr>              <dbl>
+##  1 birds caracara               caracara     cheriway       241000000
+##  2 birds Montagu's harrier      circus       pygargus       200980000
+##  3 birds peregrine falcon       falco        peregrinus     153860000
+##  4 birds booted eagle           hieraaetus   pennatus       117300000
+##  5 birds ostrich                struthio     camelus         84300000
+##  6 birds short-toed snake eagle circaetus    gallicus        78500000
+##  7 birds European turtle dove   streptopelia turtur          63585000
+##  8 birds Egyptian vulture       neophron     percnopterus    63570000
+##  9 birds common buzzard         buteo        buteo           50240000
+## 10 birds lanner falcon          falco        biarmicus       50000000
+## # ℹ 130 more rows
+```
+Caracara cheriway, aka [caracara](https://animaldiversity.org/accounts/Caracara_cheriway/) has the largest homerange. I learned that the average lifespan for these birds is 211 months, about 17 years!
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.   
