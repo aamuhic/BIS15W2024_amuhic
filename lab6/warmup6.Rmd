@@ -1,0 +1,57 @@
+---
+output: 
+  html_document: 
+    keep_md: yes
+---
+## Lab 6 Warmup
+
+library calls
+```{r}
+library(tidyverse)
+library(janitor)
+```
+
+1. load the `bison.csv` data
+```{r}
+bison <- readr::read_csv("data/bison.csv")
+```
+
+2. what are the dimesions and structure of the data?
+```{r}
+dim(bison)
+```
+
+```{r}
+glimpse(bison)
+```
+
+3. we are only interested in code, sex, weight, year of birth. restrict the data to these variables and store the dataframe as a new object.
+```{r}
+bison_new <- bison %>% 
+  select("data_code", "animal_sex", "animal_weight", "animal_yob")
+```
+
+4. pull out the animals born between 1980 and 1990
+```{r}
+bison_new %>% 
+  filter(animal_yob %in% c(1980, 1990))
+```
+
+5. how many male and female bison are represented between 1980 and 1990?
+```{r}
+bison_aged <- bison_new %>% 
+  filter(animal_yob %in% c(1980, 1990))
+table(bison_aged$animal_sex)
+```
+
+6. between 1980-1990, were males or females larger on average?
+```{r}
+bison_aged_f <- filter(bison_aged, animal_sex == "F")
+mean(bison_aged_f$animal_weight, na.rm = T)
+```
+
+```{r}
+bison_aged_m <- filter(bison_aged, animal_sex == "M")
+mean(bison_aged_m$animal_weight, na.rm = T)
+```
+Males are larger on average between 1980-1990.
