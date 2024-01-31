@@ -91,7 +91,6 @@ superhero_powers <- read_csv("data/super_hero_powers.csv", na = c("", "-99", "-"
 ## Data tidy
 1. Some of the names used in the `superhero_info` data are problematic so you should rename them here. Before you do anything, first have a look at the names of the variables. You can use `rename()` or `clean_names()`.    
 
-
 ```r
 superhero_info <- clean_names(superhero_info)
 superhero_powers <- clean_names(superhero_powers)
