@@ -2,10 +2,11 @@
 title: "dplyr Superhero"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
-    toc: yes
-    toc_float: yes
+    toc: true
+    toc_float: true
+    keep_md: true
 ---
 
 ## Learning Goals  
@@ -56,7 +57,7 @@ Marvel has the highest number of superheros
 ```{r}
 superhero_info %>%
   filter(alignment == "neutral") %>% 
-  select(name)
+  select(name, alignment)
 ```
 
 ## `superhero_info`
@@ -101,20 +102,23 @@ good_guys %>%
 8. Among the bad guys, who are the male humans over 200 inches in height?
 ```{r}
 bad_guys %>% 
-  filter(gender == "Male" & height >= 200) %>% 
-  select(name, gender, height)
+  filter(gender == "Male" & race == "Human" & height >= 200) %>% 
+  select(name, gender, race, height)
 ```
 
 9. Are there more good guys or bad guys with green hair?  
 ```{r}
 good_guys %>% 
-  filter(hair_color == "Green")
+  filter(hair_color == "Green") %>% 
+  count()
 ```
 
 ```{r}
 bad_guys %>% 
-  filter(hair_color == "Green")
+  filter(hair_color == "Green") %>% 
+  count()
 ```
+There are more good guys with green hair.
 
 10. Let's explore who the really small superheros are. In the `superhero_info` data, which have a weight less than 50? Be sure to sort your results by weight lowest to highest.  
 ```{r}
@@ -145,11 +149,26 @@ Groot has the largest height/weight ratio.
 Have a quick look at the `superhero_powers` data frame.  
 
 13. How many superheros have a combination of agility, stealth, super_strength, stamina?
+```{r}
+superhero_powers %>% 
+  filter(agility == "TRUE" & stealth == "TRUE" & super_strength == "TRUE" & stamina == "TRUE") %>% 
+  count()
+```
 
 ## Your Favorite
-14. Pick your favorite superhero and let's see their powers!  
+14. Pick your favorite superhero and let's see their powers!
+```{r}
+superhero_powers %>% 
+  filter(hero_names == "Spider-Man") %>% 
+  select_if(.=="TRUE")
+```
 
 15. Can you find your hero in the superhero_info data? Show their info!  
+```{r}
+superhero_info %>% 
+  filter(name == "Spider-Man")
+```
+There are a few Spider-Men in the data!
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.  
