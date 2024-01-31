@@ -35,7 +35,6 @@ superhero_powers <- read_csv("data/super_hero_powers.csv", na = c("", "-99", "-"
 
 ## Data tidy
 1. Some of the names used in the `superhero_info` data are problematic so you should rename them here. Before you do anything, first have a look at the names of the variables. You can use `rename()` or `clean_names()`.    
-
 ```{r}
 superhero_info <- clean_names(superhero_info)
 superhero_powers <- clean_names(superhero_powers)
@@ -151,7 +150,7 @@ Have a quick look at the `superhero_powers` data frame.
 13. How many superheros have a combination of agility, stealth, super_strength, stamina?
 ```{r}
 superhero_powers %>% 
-  filter(agility == "TRUE" & stealth == "TRUE" & super_strength == "TRUE" & stamina == "TRUE") %>% 
+  filter(agility & stealth & super_strength & stamina) %>% 
   count()
 ```
 
@@ -160,7 +159,7 @@ superhero_powers %>%
 ```{r}
 superhero_powers %>% 
   filter(hero_names == "Spider-Man") %>% 
-  select_if(.=="TRUE")
+  select_if(all)
 ```
 
 15. Can you find your hero in the superhero_info data? Show their info!  

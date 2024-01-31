@@ -450,7 +450,7 @@ Have a quick look at the `superhero_powers` data frame.
 
 ```r
 superhero_powers %>% 
-  filter(agility == "TRUE" & stealth == "TRUE" & super_strength == "TRUE" & stamina == "TRUE") %>% 
+  filter(agility & stealth & super_strength & stamina) %>% 
   count()
 ```
 
@@ -467,7 +467,11 @@ superhero_powers %>%
 ```r
 superhero_powers %>% 
   filter(hero_names == "Spider-Man") %>% 
-  select_if(.=="TRUE")
+  select_if(all)
+```
+
+```
+## Warning in .p(column, ...): coercing argument of type 'character' to logical
 ```
 
 ```
