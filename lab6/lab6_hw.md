@@ -1,6 +1,6 @@
 ---
 title: "dplyr Superhero"
-date: "2024-01-30"
+date: "2024-01-31"
 output:
   html_document: 
     theme: spacelab
@@ -25,10 +25,10 @@ library("tidyverse")
 
 ```
 ## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.4
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
 ## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ## ✔ purrr     1.0.2     
 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
@@ -141,7 +141,7 @@ tabyl(superhero_info, publisher) %>% arrange(desc(n))
 ##        Titan Books   1 0.001362398   0.001390821
 ##  Universal Studios   1 0.001362398   0.001390821
 ```
-Marvel has the highest number of superheros
+Marvel has the highest number of superheroes.
 
 2. Notice that we have some neutral superheros! Who are they? List their names below.  
 
@@ -218,6 +218,7 @@ superhero_info %>%
 ## 10 Anti-Monitor bad       God / Eternal    
 ## # ℹ 212 more rows
 ```
+note that "not human" includes human hybrids (i.e., "Human / Cosmic").
 
 ## Good and Evil
 5. Let's make two different data frames, one focused on the "good guys" and another focused on the "bad guys".
