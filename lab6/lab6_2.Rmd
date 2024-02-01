@@ -73,6 +73,7 @@ superhero_info %>%
   select(name, alignment, race) %>% 
   filter(race != "Human")
 ```
+note that "not human" includes human hybrids (i.e., "Human / Cosmic").
 
 ## Good and Evil
 5. Let's make two different data frames, one focused on the "good guys" and another focused on the "bad guys".

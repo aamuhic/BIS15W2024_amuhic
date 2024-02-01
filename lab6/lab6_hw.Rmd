@@ -49,7 +49,7 @@ tabyl(superhero_info, alignment)
 ```{r}
 tabyl(superhero_info, publisher) %>% arrange(desc(n))
 ```
-Marvel has the highest number of superheros
+Marvel has the highest number of superheroes.
 
 2. Notice that we have some neutral superheros! Who are they? List their names below.  
 ```{r}
@@ -72,6 +72,7 @@ superhero_info %>%
   select(name, alignment, race) %>% 
   filter(race != "Human")
 ```
+note that "not human" includes human hybrids (i.e., "Human / Cosmic").
 
 ## Good and Evil
 5. Let's make two different data frames, one focused on the "good guys" and another focused on the "bad guys".
