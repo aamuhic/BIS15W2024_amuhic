@@ -3,11 +3,11 @@ BIS 015L W24 MT1 Study Guide
 
 + [Load Libraries](#loadlibraries)
 + [Arithmetic](#arithmetic)
-+ [Types of Data](#typesofdata)
++ [Types of Data](#type)
 + [Vectors](#vectors)
-+ [Data Matrices](#datamatrices)
-+ [Making Data Frames](#makingdataframes)
-+ [Working with Data Frames](#workingwithdataframes)
++ [Data Matrices](#data)
++ [Making Data Frames](#making)
++ [Working with Data Frames](#working)
 
 ## Load Libraries ##
 
@@ -118,7 +118,7 @@ To get rid of an object, use the `rm()` command.
 
 ## Data Matrices ##
 
-# Assembling Data Matrices #
+### Assembling Data Matrices ###
 
 Data matrices are stacked vectors arranged in a two-dimensional array.
 Let's construct a data matrix from a bunch of related, but separate vectors.
@@ -148,7 +148,7 @@ harry_potter_matrix <- matrix(box_office, nrow = 8, byrow = TRUE)
 # note that you can also arrange your vectors into columns instead of rows
 ```
 
-# Assigning Row/Column Names #
+### Assigning Row/Column Names ###
 
 To assign row and column names to the matrix, you'll need to create more vectors with
 each column/row name within them
@@ -165,7 +165,7 @@ rownames(harry_potter_matrix) <- titles
 # harry_potter_matrix gets the values listed in region as column names
 ```
 
-# Analyzing the Data Matrix #
+### Analyzing the Data Matrix ###
 
 Now lets use our data matrix to do some cool stuff!
 
@@ -196,7 +196,7 @@ non_us_earnings <- harry_potter_matrix[ , 2]
 mean(non_us_earnings)
 ```
 
-# Adding Rows/Columns to the Matrix #
+### Adding Rows/Columns to the Matrix ###
 
 You can even add these row/column totals as new rows/columns in your data matrix using
 `cbind()` or `rbind()`.
@@ -208,7 +208,7 @@ harry_potter_matrix <- rbind(harry_potter_matrix, total_earnings)
 
 ## Making Data Frames ##
 
-# Assembling Data Frames #
+### Assembling Data Frames ###
 
 Data frames are yet another way to store data in R, but it is by far the most common.
 Let's see how to make one.
@@ -225,7 +225,7 @@ Use the function `data.frame()` to combine and arrange the vectors into a data f
 hbirds <- data.frame(Sex, Length, Weight)
 ```
 
-# Exploring the Structure #
+### Exploring the Structure ###
 
 To get some information on our data frame, there are a few functions we can use.
 
@@ -242,7 +242,7 @@ tail(hbirds)      # last n rows of the data frame
 table(hbirds$Sex) # number of observations for a categorical variable
 ```
 
-# Naming and Renaming Variables #
+### Naming and Renaming Variables ###
 
 We can rename the column names/variable names to make them more conventional
 
@@ -258,7 +258,7 @@ mammals_new <- rename(mammals, "afr"="AFR", "annual_litters"="litters/year")
 # frame name, "new_name"="Old name"
 ```
 
-# Pulling Values from Rows/Columns #
+### Pulling Values from Rows/Columns ###
 
 Selecting rows/columns in a data frame and data matrix are similar processes.
 
@@ -282,7 +282,7 @@ then calculating the mean of the object).
 mean(hbirds$weight_g)
 ```
 
-# Adding Rows and Columns to the Data Frame #
+### Adding Rows and Columns to the Data Frame ###
 
 Let's add a row to our data frame.
 First we'll create a vector that stores all of the observations in our row.
@@ -310,7 +310,7 @@ Or we can use the handy `$` to add a new column to our data frame.
 hbirds$neighborhood <- c("lakewood", "brentwood", "lakewood", "scenic Heights")
 ```
 
-# Saving and Importing Data Frames # 
+### Saving and Importing Data Frames ###
 
 If we want to save our data frame into a .csv file, we use the `write.csv()`
 function.
@@ -340,7 +340,7 @@ hot_springs$scientist <- as.factor(hot_springs$scientist)
 levels(hot_springs$scientist) # to see the categories of observations
 ```
 
-# `filter()` #
+### `filter()` ###
 
 `filter()` is an extremely useful function part of the `dplyr` package (part of the 
 `tidyverse`). It pulls out observations that match our specified criteria.
@@ -349,7 +349,7 @@ levels(hot_springs$scientist) # to see the categories of observations
 little_fish <- filter(fish, length<=100) # for data frame 'fish'
 ```
 
-# `select()` #
+### `select()` ###
 
 `select` is another critical `dplyr` function. It allows us to reduce/refocus our data
 frame to only the variables we're interested in
