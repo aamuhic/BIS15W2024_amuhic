@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output:
   html_document: 
     theme: spacelab
-    keep_md: yes
+    keep_md: true
 ---
 
 ```{r setup, include=FALSE}
@@ -76,6 +76,7 @@ fisheries_tidy %>%
 ```{r}
 fisheries_tidy <- fisheries_tidy %>% 
   select(country, isscaap_taxonomic_group, asfis_species_name, asfis_species_number, year, catch)
+fisheries_tidy
 ```
 
 5. Based on the asfis_species_number, how many distinct fish species were caught as part of these data?
@@ -88,41 +89,47 @@ fisheries_tidy %>%
 ```{r}
 fisheries_tidy %>% 
   filter(year=="2000") %>% 
-  summarize(max_catch=max(catch, na.rm = TRUE))
+  group_by(country) %>% 
+  summarize(largest_catch=sum(catch, na.rm = TRUE)) %>% 
+  arrange(desc(largest_catch)) %>% 
+  first()
 ```
-```{r}
-fisheries_tidy %>% 
-  select(country, catch) %>% 
-  filter(catch==9068)
-```
+_China had the largest overall catch in 2000._
 
 7. Which country caught the most sardines (_Sardina pilchardus_) between the years 1990-2000?
 ```{r}
 fisheries_tidy %>% 
-  filter(isscaap_taxonomic_group=="Herrings, sardines, anchovies" & between(year, 1990, 2000)) %>% 
+  filter(asfis_species_name=="Sardina pilchardus"
+         & between(year, 1990, 2000)) %>% 
   group_by(country) %>% 
-  summarize(all_caught=sum(catch, na.rm = TRUE)) %>% 
-  arrange(desc(all_caught))
+  summarize(catch_total=sum(catch, na.rm = TRUE)) %>% 
+  arrange(desc(catch_total)) %>% 
+  first()
 ```
-_Peru caught the most saradines between 1990-2000._
+_Morocco caught the most sardines between 1990-2000._
 
 8. Which five countries caught the most cephalopods between 2008-2012?
 ```{r}
 fisheries_tidy %>%
-  filter(asfis_species_name=="Cephalopoda" & between(year, 2008, 2012)) %>%
+  filter(isscaap_taxonomic_group==
+         "Squids, cuttlefishes, octopuses" & 
+           between(year, 2008, 2012)) %>% 
   group_by(country) %>% 
-  summarize(all_caught=sum(catch, na.rm = TRUE)) %>% 
-  arrange(desc(all_caught))
+  summarize(catch_total=sum(catch, na.rm=T)) %>% 
+  arrange(desc(catch_total)) %>% 
+  head()
 ```
-_India, Chins, Spain, Algeria, and France._
+_China, Republic of Korea, Peru, Japan, Chile._
 
 9. Which species had the highest catch total between 2008-2012? (hint: Osteichthyes is not a species)
 ```{r}
 fisheries_tidy %>% 
-  filter(between(year, 2008, 2012) & asfis_species_name!="Osteichthyes") %>% 
+  filter(between(year, 2008, 2012) &
+           asfis_species_name!="Osteichthyes") %>% 
   group_by(asfis_species_name) %>% 
   summarise(total=sum(catch, na.rm = TRUE)) %>% 
-  arrange(desc(total))
+  arrange(desc(total)) %>% 
+  first()
 ```
 _Theragra chalcogramma had the highest catch total between 2008-2012._
 
@@ -134,7 +141,8 @@ fisheries_tidy %>%
   filter(country=="Chile", between(year, 2000, 2010)) %>% 
   group_by(asfis_species_name) %>% 
   summarize(catch_total=sum(catch, na.rm = TRUE)) %>% 
-  arrange(desc(catch_total))
+  arrange(desc(catch_total)) %>% 
+  first
 ```
 _Trachurus murphyi, aka the Chilean jack mackerel_
 
