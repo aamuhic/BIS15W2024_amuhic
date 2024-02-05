@@ -1,13 +1,13 @@
 BIS 015L W24 MT1 Study Guide
 =======================
 
-+ [Load Libraries](#loadlibraries)
++ [Load Libraries](#load-libraries)
 + [Arithmetic](#arithmetic)
-+ [Types of Data](#type)
-+ [Vectors](#vectors)
-+ [Data Matrices](#data)
-+ [Making Data Frames](#making)
-+ [Working with Data Frames](#working)
++ [Types of Data](#types-of-data)
++ [Vectors and Objects](#vectors-and-objects)
++ [Data Matrices](#data-matrices)
++ [Making Data Frames](#making-data-frames)
++ [Working with Data Frames](#working-with-data-frames)
 
 ## Load Libraries ##
 
@@ -16,6 +16,8 @@ library(tidyverse)
 # in the tidyverse, column = variable, row = observations, cell = value
 
 library(janitor)
+
+library(skimr)
 ```
 
 ## Arithmetic ##
@@ -241,6 +243,26 @@ head(hbirds)      # first n rows of the data frame
 tail(hbirds)      # last n rows of the data frame
 table(hbirds$Sex) # number of observations for a categorical variable
 ```
+The `tabyl()` function from the `janitor` package is similar to the `table` function
+shown above; it displays counts and percentages for each level.
+
+```
+tabyl(superhero_info, alignment) # name of data frame, name of variable
+```
+
+`skim()` is part of the `skimr` package and gives you a nice display of your data.
+
+```
+skim(msleep24)
+```
+
+It might also be helpful to view your data as a histogram if you want to check your
+output.
+
+```
+hist(msleep$sleep_total_24)
+```
+
 
 ### Naming and Renaming Variables ###
 
@@ -258,6 +280,19 @@ mammals_new <- rename(mammals, "afr"="AFR", "annual_litters"="litters/year")
 # frame name, "new_name"="Old name"
 ```
 
+More ways to clean up our variable names:
+
+```
+mammals <- select_all(mammals, tolower) 
+# change all variable names to lower case only
+
+mammals <- select_all(mammals ~str_replace(., " ", "_"))
+# replace spaces with underscores in all variable names
+
+mammals <- clean_names(mammals)
+# my favorite!
+``` 
+
 ### Pulling Values from Rows/Columns ###
 
 Selecting rows/columns in a data frame and data matrix are similar processes.
@@ -274,7 +309,7 @@ character.
 w <- hbirds$weight_g
 ```
 
-The `$` character is also convenient for calculating column statistics in a relatively
+The `$` operator is also convenient for calculating column statistics in a relatively
 clean manner (i.e., as opposed to storing the column values in an object first and
 then calculating the mean of the object).
 
@@ -347,6 +382,22 @@ levels(hot_springs$scientist) # to see the categories of observations
 
 ```
 little_fish <- filter(fish, length<=100) # for data frame 'fish'
+# use operators: >, >=, <, <=, !=, ==
+
+filter(fish, lakeid=="AL")
+```
+
+`filter()` can also be used for multiple operations
+
+```
+filter(fish, length %in% c(167, 175))           # observations between 167-175
+filter(fish, between(length, 167, 175))         # '                           '
+filter(fish, near(radii_length_mm, 2, tol=0.2)) # near 2 w/ tolerance of 0.2
+
+filter(fish, lakeid=="AL" & length > 350)       # must meet both criteria (and)
+filter(fish, lakeid=="AL" | length > 350)       # must meet either criteria (or)
+
+filter(xor(condition1, condition2))             # either but not both criteria
 ```
 
 ### `select()` ###
@@ -387,3 +438,172 @@ Or select variables that belong to a specific class of data.
 select_if(fish, is.numeric)      #select_if, not plain select
 select_if(fish, ~!is.numeric(.)) # ! = 'not
 ```
+
+### Pipes ###
+
+Pipes are feed the output of one function into the input of the following function.
+For example:
+
+```
+fish %>%
+	select(lakeid, scalelength) %>%
+	filter(lakeid=="AL")
+
+#first we refocus our fish data, then restrict which observations we want to see
+```
+
+```
+fish %>%
+	select(lakeid, radii_length_mm) %>%
+	filter(lakeid=="AL" | lakeid=="AR") %>%
+	filter(between(radii_length_mm, 2, 4)) %>% 
+	arrange(desc(radii_length_mm)) # from greatest to least
+```
+
+### `mutate()` ###
+
+We use `mutate()` to create new columns from existing columns in the data frame.
+
+```
+fish %>% 
+  mutate(length_mm = length*10) %>% 
+  select(fish_id, length, length_mm)
+```
+
+We can also use `mutate()` or `mutate_all()` to clean up values in the data
+
+```
+mammals %>% 
+	mutate_all(tolower)                             # make all entries lowercase
+	
+mammals %>%
+	mutate(across(c("order", "family"), to lower)) # make specific columns lower case
+```
+
+### `if_else()` ###
+
+We will use `if_else()` if we want to differentially mutate values within a column.
+
+```
+mammals %>%
+	select(genus, species, newborn) %>%
+	mutate(newborn_new = ifelse(newborn == -999.00, NA, newborn)) %>%
+	arrange(newborn)
+	
+# create a new column where we take the -999.00 values under newborn and change them to
+'NA'
+```
+
+### `summarize()` ###
+
+`summarize()` helps us find summary statistics for a variable interest.
+
+```
+msleep %>%
+	filter(bodywt>200) %>%
+	summarize(mean_sleep_lg=mean(sleep_total),
+		min_sleep_lg=min(sleep_total),
+		max_sleep_lg=max(sleep_total),
+		sd_sleep_lg=sd(sleep_total),
+		total=n()) # number of observations
+# to find the average sleep total (and more) for animals of specified weight
+```
+
+One statistic we might want to find is the number of distinct observations under a
+variable. In that case we use `n_distinct` with the `summarize()` function
+
+```
+msleep %>%
+	summarize(n_genera=n_distinct(genus)) # number of unique genera
+```
+
+Some other functions to use with `summarize()`: `first()`, `last()` for the first and
+last values in a column, respectively.
+
+### `group_by()` ###
+
+We often pipe `group_by()` to `summarize()` to get summary statistics by value/category
+(it will only work with categorical variables!).
+
+```
+msleep %>%
+	group_by(vore) %>% # we are grouping by feeding ecology, a categorical variable
+  	summarize(min_bodywt = min(bodywt),
+            	max_bodywt = max(bodywt),
+            	mean_bodywt = mean(bodywt),
+            	total=n())
+# will display min, max, mean for each category instead of overall values
+```
+
+Note that you'll often have to remove any NAs using `na.rm = TRUE` or `filter(!is.na())`
+any time you find summary statistics.
+
+If you need to you can also find the number of NAs per category for a variable.
+
+```
+penguins %>%
+	group_by(island) %>%
+	summarize(number_NAs=sum(is.na(body_mass_g)))
+```
+
+### Counts ###
+
+We often use `count()` to see how many observations we have in a column (as a way to
+combine the work of `group_by` and `summarize`).
+
+```
+penguins %>%
+	count(island, sort = T)          # sort in descending order
+
+penguins %>%
+	count(island, species, sort = T) # across multiple variables
+```
+
+### `across()` ###
+
+`across()` is helpful for calculating a statistic over multiple variables.
+
+```
+penguins %>%
+	summarize(across(c(species, island, sex), n_distinct))
+# find the number of distinct observations for species, island, and sex
+```
+
+Applications of `across()` become very useful when working with continuous variables.
+
+```
+penguins %>%
+	summarize(across(contains("mm"), mean, na.rm=TRUE))
+
+penguins %>%
+	summarize(across(a:b, \(x) mean(x, na.rm=TRUE))     # to deal with the error
+```
+
+You can also pair `across()` with `group_by()` to see how the statistics compare between
+categories.
+
+```
+penguins %>%
+  group_by(sex) %>% 
+  summarize(across(contains("mm"), mean, na.rm=T))
+```
+
+Remember you can also use operators, or any of the other `dplyr` operators, with
+`summarize()`.
+
+```
+penguins %>%
+	summarize(across(!c(species, island, sex, year), mean, na.rm = T))
+# get rid of all categorical variables
+
+penguins %>%
+	summarize(across(starts_with("bill"), mean, na.rm = TRUE))
+```
+
+To summarize across all variables use `summarise_all()`.
+
+```
+penguins %>%
+	summarise_all(mean, na.rm = TRUE)
+```
+
