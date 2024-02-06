@@ -502,7 +502,7 @@ to use. As part of this cleaning step, change <code>country</code>,
 <code>isscaap_group_number</code>, <code>asfis_species_number</code>,
 and <code>fao_major_fishing_area</code> to data class factor.</li>
 </ol>
-<pre class="r"><code>fisheries &lt;- clean_names(fisheries) %&gt;% mutate(across(c(country, isscaap_group_number, asfis_species_number,fao_major_fishing_area), factor))</code></pre>
+<pre class="r"><code>fisheries &lt;- clean_names(fisheries) %&gt;% mutate(across(c(country, isscaap_group_number, asfis_species_number,fao_major_fishing_area), as.factor))</code></pre>
 <p>We need to deal with the years because they are being treated as
 characters and start with an X. We also have the problem that the column
 names that are years actually represent data. We haven’t discussed tidy
