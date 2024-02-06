@@ -229,6 +229,8 @@ hbirds <- data.frame(Sex, Length, Weight)
 
 ### Exploring the Structure ###
 
+To confirm the data you're looking at is indeed a data frame, use `is.data.frame()`.
+
 To get some information on our data frame, there are a few functions we can use.
 
 ```
