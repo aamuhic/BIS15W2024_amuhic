@@ -1,7 +1,7 @@
 ---
 title: "Lab 7 Homework"
 author: "Amina Muhic"
-date: "2024-02-04"
+date: "2024-02-05"
 output:
   html_document: 
     theme: spacelab
@@ -9,6 +9,8 @@ output:
 ---
 
 
+
+_**Note that this is technically "HW 6." It is the sixth homework assignment, assigned after the seventh lab (thus why it is under the 'lab7' directory).**_
 
 ## Instructions
 Answer the following questions and complete the exercises in RMarkdown. Please embed all of your code and push your final work to your repository. Your final lab report should be organized, clean, and run free from errors. Remember, you must remove the `#` for the included code chunks to run. Be sure to add your name to the author header above.  
