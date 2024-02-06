@@ -441,7 +441,7 @@ select_if(fish, ~!is.numeric(.)) # ! = 'not
 
 ### Pipes ###
 
-Pipes are feed the output of one function into the input of the following function.
+Pipes feed the output of one function into the input of the following function.
 For example:
 
 ```
@@ -477,7 +477,8 @@ mammals %>%
 	mutate_all(tolower)                             # make all entries lowercase
 	
 mammals %>%
-	mutate(across(c("order", "family"), to lower)) # make specific columns lower case
+	mutate(across(c("order", "family"), tolower)) # make specific columns lower case
+# could also be used with as.factor to change all specified variables to factors
 ```
 
 ### `if_else()` ###
