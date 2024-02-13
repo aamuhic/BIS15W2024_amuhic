@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output:
   html_document: 
     theme: spacelab
-    keep_md: yes
+    keep_md: true
 ---
 
 ```{r setup, include=FALSE}
@@ -70,25 +70,22 @@ summary(amphibio)
 _It looks like NAs are represented appropriately (with NA) in many cases._
 
 **4. How many total NA's are in each data set? Do these values make sense? Are NA's represented by values?**   
+
 ```{r}
-miss_var_summary(amniota)
-```
-```{r}
-amniota %>% map_df(~ sum(is.na(.))) %>% rowSums()
+amniota %>% 
+  summarize(n_nas = sum(is.na(amniota)))
 # total number of NAs in `amniota` data
 ```
 
 _It doesn't really make sense that the `amniota` data set has no NAs... it looks like outrageous numbers (i.e., -999.0) are used to represent NAs._
 
 ```{r}
-miss_var_summary(amphibio)
-```
-```{r}
-amphibio %>% map_df(~ sum(is.na(.))) %>% rowSums()
+amphibio %>% 
+  summarize(n_nas = sum(is.na(amphibio)))
 # total numer of NAs in `amphibio` data
 ```
 
-_This number of NAs makes more sense for the `amphibio` data set. But there are some variables (e.g., `Fruits`) that have mostly NAs as observations._
+_This number of NAs makes more sense for the `amphibio` data set._
 
 **5. Make any necessary replacements in the data such that all NA's appear as "NA".**   
 ```{r}
@@ -117,7 +114,7 @@ amniota_no_nas %>%
   group_by(class) %>% 
   miss_var_summary() 
 ```
-_Usually, NAs represent missing data. However, given that mammals don't lay eggs and that all of the `egg_mass_g` observations for mammals are NAs, NA here can also apply to non applicable data._
+_Usually, NAs represent missing data. However, given that mammals don't lay eggs and that all of the `egg_mass_g` observations for mammals are NAs, NA here can also apply to non-applicable data._
 
 **9. The `amphibio` data have variables that classify species as fossorial (burrowing), terrestrial, aquatic, or arboreal.Calculate the number of NA's in each of these variables. Do you think that the authors intend us to think that there are NA's in these columns or could they represent something else? Explain.**
 ```{r}
