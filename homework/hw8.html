@@ -11,7 +11,7 @@
 
 <meta name="author" content="Amina Muhic" />
 
-<meta name="date" content="2024-02-13" />
+<meta name="date" content="2024-02-14" />
 
 <title>Homework 8</title>
 
@@ -376,7 +376,7 @@ display: none;
 
 <h1 class="title toc-ignore">Homework 8</h1>
 <h4 class="author">Amina Muhic</h4>
-<h4 class="date">2024-02-13</h4>
+<h4 class="date">2024-02-14</h4>
 
 </div>
 
@@ -420,9 +420,7 @@ check it out!</p>
 <li>Start by loading the data <code>sydneybeaches</code>. Do some
 exploratory analysis to get an idea of the data structure.</li>
 </ol>
-<pre class="r"><code>getwd()</code></pre>
-<pre><code>## [1] &quot;/Users/aamuhic/Desktop/BIS15W2024_amuhic/homework&quot;</code></pre>
-<pre class="r"><code>sydneybeaches &lt;- readr::read_csv(&quot;/Users/aamuhic/Desktop/BIS15W2024_amuhic/lab9/data/sydneybeaches.csv&quot;)</code></pre>
+<pre class="r"><code>sydneybeaches &lt;- readr::read_csv(&quot;/Users/aminamuhic/Desktop/BIS15W2024_amuhic/lab9/data/sydneybeaches.csv&quot;)</code></pre>
 <pre><code>## Rows: 3690 Columns: 8
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -431,12 +429,40 @@ exploratory analysis to get an idea of the data structure.</li>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>glimpse(sydneybeaches)</code></pre>
+<pre><code>## Rows: 3,690
+## Columns: 8
+## $ BeachId                   &lt;dbl&gt; 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, …
+## $ Region                    &lt;chr&gt; &quot;Sydney City Ocean Beaches&quot;, &quot;Sydney City Oc…
+## $ Council                   &lt;chr&gt; &quot;Randwick Council&quot;, &quot;Randwick Council&quot;, &quot;Ran…
+## $ Site                      &lt;chr&gt; &quot;Clovelly Beach&quot;, &quot;Clovelly Beach&quot;, &quot;Clovell…
+## $ Longitude                 &lt;dbl&gt; 151.2675, 151.2675, 151.2675, 151.2675, 151.…
+## $ Latitude                  &lt;dbl&gt; -33.91449, -33.91449, -33.91449, -33.91449, …
+## $ Date                      &lt;chr&gt; &quot;02/01/2013&quot;, &quot;06/01/2013&quot;, &quot;12/01/2013&quot;, &quot;1…
+## $ `Enterococci (cfu/100ml)` &lt;dbl&gt; 19, 3, 2, 13, 8, 7, 11, 97, 3, 0, 6, 0, 1, 8…</code></pre>
+<pre class="r"><code>summary(sydneybeaches)</code></pre>
+<pre><code>##     BeachId         Region            Council              Site          
+##  Min.   :22.00   Length:3690        Length:3690        Length:3690       
+##  1st Qu.:24.00   Class :character   Class :character   Class :character  
+##  Median :26.00   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :25.87                                                           
+##  3rd Qu.:27.40                                                           
+##  Max.   :29.00                                                           
+##                                                                          
+##    Longitude        Latitude          Date           Enterococci (cfu/100ml)
+##  Min.   :151.3   Min.   :-33.98   Length:3690        Min.   :   0.00        
+##  1st Qu.:151.3   1st Qu.:-33.95   Class :character   1st Qu.:   1.00        
+##  Median :151.3   Median :-33.92   Mode  :character   Median :   5.00        
+##  Mean   :151.3   Mean   :-33.93                      Mean   :  33.92        
+##  3rd Qu.:151.3   3rd Qu.:-33.90                      3rd Qu.:  17.00        
+##  Max.   :151.3   Max.   :-33.89                      Max.   :4900.00        
+##                                                      NA&#39;s   :29</code></pre>
 <p>If you want to try <code>here</code>, first notice the output when
 you load the <code>here</code> library. It gives you information on the
 current working directory. You can then use it to easily and intuitively
 load files.</p>
 <pre class="r"><code>library(here)</code></pre>
-<pre><code>## here() starts at /Users/aamuhic/Desktop/BIS15W2024_amuhic</code></pre>
+<pre><code>## here() starts at /Users/aminamuhic/Desktop/BIS15W2024_amuhic</code></pre>
 <p>The quotes show the folder structure from the root directory.</p>
 <pre class="r"><code>sydneybeaches &lt;-read_csv(here(&quot;lab9&quot;, &quot;data&quot;, &quot;sydneybeaches.csv&quot;)) %&gt;% clean_names()</code></pre>
 <pre><code>## Rows: 3690 Columns: 8
@@ -451,7 +477,28 @@ load files.</p>
 <li>Are these data “tidy” per the definitions of the tidyverse? How do
 you know? Are they in wide or long format?</li>
 </ol>
-<p><em>Is it tidy????</em> <em>Long format.</em></p>
+<pre class="r"><code>sydneybeaches</code></pre>
+<pre><code>## # A tibble: 3,690 × 8
+##    beach_id region  council site  longitude latitude date  enterococci_cfu_100ml
+##       &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;                 &lt;dbl&gt;
+##  1       25 Sydney… Randwi… Clov…      151.    -33.9 02/0…                    19
+##  2       25 Sydney… Randwi… Clov…      151.    -33.9 06/0…                     3
+##  3       25 Sydney… Randwi… Clov…      151.    -33.9 12/0…                     2
+##  4       25 Sydney… Randwi… Clov…      151.    -33.9 18/0…                    13
+##  5       25 Sydney… Randwi… Clov…      151.    -33.9 30/0…                     8
+##  6       25 Sydney… Randwi… Clov…      151.    -33.9 05/0…                     7
+##  7       25 Sydney… Randwi… Clov…      151.    -33.9 11/0…                    11
+##  8       25 Sydney… Randwi… Clov…      151.    -33.9 23/0…                    97
+##  9       25 Sydney… Randwi… Clov…      151.    -33.9 07/0…                     3
+## 10       25 Sydney… Randwi… Clov…      151.    -33.9 25/0…                     0
+## # ℹ 3,680 more rows</code></pre>
+<p>_Yes, the data are tidy. Each variable has its own column*, each
+observation has its own row, and each value has its own cell. The column
+names don’t represent data, as if often the case with untidy data in
+wide format. Thus, this data is in long format._ _*The only issue might
+be with the <code>date</code> variable, as the day, month, and year
+should be represented as independent variables for ultimate
+tidiness._</p>
 <ol start="3" style="list-style-type: decimal">
 <li>We are only interested in the variables site, date, and
 enterococci_cfu_100ml. Make a new object focused on these variables
@@ -619,10 +666,12 @@ wide format.</li>
 ##  9 Bronte Beach            2013        26.8 
 ## 10 Gordons Bay (East)      2013        24.8 
 ## 11 Clovelly Beach          2013         9.28</code></pre>
+<p><em>Little Bay Beach was the most polluted in 2013.</em></p>
 <ol start="10" style="list-style-type: decimal">
 <li>Please complete the class project survey at: <a href="https://forms.gle/H2j69Z3ZtbLH3efW6">BIS 15L Group
 Project</a></li>
 </ol>
+<p><em>Done!</em></p>
 </div>
 <div id="push-your-final-code-to-github" class="section level2">
 <h2>Push your final code to GitHub!</h2>

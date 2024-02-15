@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output:
   html_document: 
     theme: spacelab
-    keep_md: yes
+    keep_md: true
 ---
 
 ```{r setup, include=FALSE}
@@ -35,12 +35,17 @@ For this homework, we will use a data set compiled by the Office of Environment 
 This homework loosely follows the tutorial of [R Ladies Sydney](https://rladiessydney.org/). If you get stuck, check it out!  
 
 1. Start by loading the data `sydneybeaches`. Do some exploratory analysis to get an idea of the data structure.
+
 ```{r}
-getwd()
+sydneybeaches <- readr::read_csv("/Users/aminamuhic/Desktop/BIS15W2024_amuhic/lab9/data/sydneybeaches.csv")
 ```
 
 ```{r}
-sydneybeaches <- readr::read_csv("/Users/aamuhic/Desktop/BIS15W2024_amuhic/lab9/data/sydneybeaches.csv")
+glimpse(sydneybeaches)
+```
+
+```{r}
+summary(sydneybeaches)
 ```
 
 If you want to try `here`, first notice the output when you load the `here` library. It gives you information on the current working directory. You can then use it to easily and intuitively load files.
@@ -54,9 +59,11 @@ sydneybeaches <-read_csv(here("lab9", "data", "sydneybeaches.csv")) %>% clean_na
 ```
 
 2. Are these data "tidy" per the definitions of the tidyverse? How do you know? Are they in wide or long format?
-
-_Is it tidy????_
-_Long format._
+```{r}
+sydneybeaches
+```
+_Yes, the data are tidy. Each variable has its own column*, each observation has its own row, and each value has its own cell. The column names don't represent data, as if often the case with untidy data in wide format. Thus, this data is in long format._
+_*The only issue might be with the `date` variable, as the day, month, and year should be represented as independent variables for ultimate tidiness._
 
 3. We are only interested in the variables site, date, and enterococci_cfu_100ml. Make a new object focused on these variables only. Name the object `sydneybeaches_long`
 
@@ -116,9 +123,11 @@ sydneybeaches_long %>%
   summarize(mean_contam = mean(enterococci_cfu_100ml, na.rm = TRUE)) %>% filter(year=="2013") %>% 
   arrange(desc(mean_contam))
 ```
-
+_Little Bay Beach was the most polluted in 2013._
 
 10. Please complete the class project survey at: [BIS 15L Group Project](https://forms.gle/H2j69Z3ZtbLH3efW6)
 
+ _Done!_
+ 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.   

@@ -1,11 +1,11 @@
 ---
 title: "Homework 8"
 author: "Amina Muhic"
-date: "2024-02-13"
+date: "2024-02-14"
 output:
   html_document: 
     theme: spacelab
-    keep_md: yes
+    keep_md: true
 ---
 
 
@@ -36,17 +36,9 @@ This homework loosely follows the tutorial of [R Ladies Sydney](https://rladiess
 
 1. Start by loading the data `sydneybeaches`. Do some exploratory analysis to get an idea of the data structure.
 
-```r
-getwd()
-```
-
-```
-## [1] "/Users/aamuhic/Desktop/BIS15W2024_amuhic/homework"
-```
-
 
 ```r
-sydneybeaches <- readr::read_csv("/Users/aamuhic/Desktop/BIS15W2024_amuhic/lab9/data/sydneybeaches.csv")
+sydneybeaches <- readr::read_csv("/Users/aminamuhic/Desktop/BIS15W2024_amuhic/lab9/data/sydneybeaches.csv")
 ```
 
 ```
@@ -60,6 +52,48 @@ sydneybeaches <- readr::read_csv("/Users/aamuhic/Desktop/BIS15W2024_amuhic/lab9/
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 ```
 
+
+```r
+glimpse(sydneybeaches)
+```
+
+```
+## Rows: 3,690
+## Columns: 8
+## $ BeachId                   <dbl> 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, …
+## $ Region                    <chr> "Sydney City Ocean Beaches", "Sydney City Oc…
+## $ Council                   <chr> "Randwick Council", "Randwick Council", "Ran…
+## $ Site                      <chr> "Clovelly Beach", "Clovelly Beach", "Clovell…
+## $ Longitude                 <dbl> 151.2675, 151.2675, 151.2675, 151.2675, 151.…
+## $ Latitude                  <dbl> -33.91449, -33.91449, -33.91449, -33.91449, …
+## $ Date                      <chr> "02/01/2013", "06/01/2013", "12/01/2013", "1…
+## $ `Enterococci (cfu/100ml)` <dbl> 19, 3, 2, 13, 8, 7, 11, 97, 3, 0, 6, 0, 1, 8…
+```
+
+
+```r
+summary(sydneybeaches)
+```
+
+```
+##     BeachId         Region            Council              Site          
+##  Min.   :22.00   Length:3690        Length:3690        Length:3690       
+##  1st Qu.:24.00   Class :character   Class :character   Class :character  
+##  Median :26.00   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :25.87                                                           
+##  3rd Qu.:27.40                                                           
+##  Max.   :29.00                                                           
+##                                                                          
+##    Longitude        Latitude          Date           Enterococci (cfu/100ml)
+##  Min.   :151.3   Min.   :-33.98   Length:3690        Min.   :   0.00        
+##  1st Qu.:151.3   1st Qu.:-33.95   Class :character   1st Qu.:   1.00        
+##  Median :151.3   Median :-33.92   Mode  :character   Median :   5.00        
+##  Mean   :151.3   Mean   :-33.93                      Mean   :  33.92        
+##  3rd Qu.:151.3   3rd Qu.:-33.90                      3rd Qu.:  17.00        
+##  Max.   :151.3   Max.   :-33.89                      Max.   :4900.00        
+##                                                      NA's   :29
+```
+
 If you want to try `here`, first notice the output when you load the `here` library. It gives you information on the current working directory. You can then use it to easily and intuitively load files.
 
 ```r
@@ -67,7 +101,7 @@ library(here)
 ```
 
 ```
-## here() starts at /Users/aamuhic/Desktop/BIS15W2024_amuhic
+## here() starts at /Users/aminamuhic/Desktop/BIS15W2024_amuhic
 ```
 
 The quotes show the folder structure from the root directory.
@@ -89,8 +123,28 @@ sydneybeaches <-read_csv(here("lab9", "data", "sydneybeaches.csv")) %>% clean_na
 
 2. Are these data "tidy" per the definitions of the tidyverse? How do you know? Are they in wide or long format?
 
-_Is it tidy????_
-_Long format._
+```r
+sydneybeaches
+```
+
+```
+## # A tibble: 3,690 × 8
+##    beach_id region  council site  longitude latitude date  enterococci_cfu_100ml
+##       <dbl> <chr>   <chr>   <chr>     <dbl>    <dbl> <chr>                 <dbl>
+##  1       25 Sydney… Randwi… Clov…      151.    -33.9 02/0…                    19
+##  2       25 Sydney… Randwi… Clov…      151.    -33.9 06/0…                     3
+##  3       25 Sydney… Randwi… Clov…      151.    -33.9 12/0…                     2
+##  4       25 Sydney… Randwi… Clov…      151.    -33.9 18/0…                    13
+##  5       25 Sydney… Randwi… Clov…      151.    -33.9 30/0…                     8
+##  6       25 Sydney… Randwi… Clov…      151.    -33.9 05/0…                     7
+##  7       25 Sydney… Randwi… Clov…      151.    -33.9 11/0…                    11
+##  8       25 Sydney… Randwi… Clov…      151.    -33.9 23/0…                    97
+##  9       25 Sydney… Randwi… Clov…      151.    -33.9 07/0…                     3
+## 10       25 Sydney… Randwi… Clov…      151.    -33.9 25/0…                     0
+## # ℹ 3,680 more rows
+```
+_Yes, the data are tidy. Each variable has its own column*, each observation has its own row, and each value has its own cell. The column names don't represent data, as if often the case with untidy data in wide format. Thus, this data is in long format._
+_*The only issue might be with the `date` variable, as the day, month, and year should be represented as independent variables for ultimate tidiness._
 
 3. We are only interested in the variables site, date, and enterococci_cfu_100ml. Make a new object focused on these variables only. Name the object `sydneybeaches_long`
 
@@ -301,9 +355,11 @@ sydneybeaches_long %>%
 ## 10 Gordons Bay (East)      2013        24.8 
 ## 11 Clovelly Beach          2013         9.28
 ```
-
+_Little Bay Beach was the most polluted in 2013._
 
 10. Please complete the class project survey at: [BIS 15L Group Project](https://forms.gle/H2j69Z3ZtbLH3efW6)
 
+ _Done!_
+ 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.   
