@@ -1,0 +1,36 @@
+---
+output: 
+  html_document: 
+    keep_md: yes
+---
+```{r}
+library(tidyverse)
+library(dplyr)
+library(janitor)
+```
+
+
+```{r}
+malaria <- readr::read_csv("data/malaria.csv") %>% clean_names()
+```
+
+```{r}
+names(malaria)
+```
+
+```{r}
+malaria_tidy <- malaria %>% 
+  pivot_longer(col = starts_with("malaria_rdt"),
+               names_to = "age_group",
+               values_to = "rdt")
+malaria_tidy
+```
+
+```{r}
+malaria_tidy %>% 
+  filter(data_date=="2020-7-30") %>% 
+  group_by(district) %>% 
+  summarize(n_case=sum(malaria_tot, na.rm = TRUE)) %>% 
+  arrange(desc(n_case))
+```
+_Bolo had the highest number of cases on July 30, 2020._
