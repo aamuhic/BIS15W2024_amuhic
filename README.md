@@ -6,6 +6,8 @@ Davis. Here you'll find my lab and homework assignments for the course.
 #### Homework
 My homework is stored in the `homework` folder. 
 
+=============================================================================
+
 ### Contact Info
 [Amina Muhic](mailto:aamuhic@ucdavis.edu)
 
