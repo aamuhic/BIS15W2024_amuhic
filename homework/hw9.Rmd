@@ -3,9 +3,9 @@ title: "Homework 9"
 author: "Amina Muhic"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
-    toc: no
+    keep_md: true
 ---
 
 ```{r setup, include=FALSE}
@@ -95,9 +95,9 @@ _Note that there are a few ties for the top 10 cities, so more than 12 cities ar
 
 ```{r}
 colleges %>% 
-  select(city, costt4_a) %>% 
-  arrange(desc(costt4_a)) %>% 
-  first()
+  group_by(city) %>% 
+  summarize(avg_cost=mean(costt4_a, na.rm = TRUE)) %>% 
+  arrange(desc(avg_cost))
 ```
 _Claremont, California is a city in Los Angeles County._
 
@@ -106,6 +106,7 @@ _Claremont, California is a city in Los Angeles County._
 ```{r}
 colleges %>% 
   filter(city == "Claremont" | city == "Davis") %>% 
+  filter(costt4_a != "NA") %>% 
   ggplot(aes(x=instnm, y=costt4_a)) +
   geom_col() +
   coord_flip()
