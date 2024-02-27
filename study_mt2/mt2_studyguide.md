@@ -3,7 +3,7 @@ BIS 015L W24 MT2 Study Guide
 
 This document serves as a reference sheet for the topics covered on Midterm 2.
 
-For resources on data transformation, see `mt1_studyguide.md` in the '`study_mt1`
+For resources on data transformation, see `mt1_studyguide.md` in the `study_mt1`
 folder.
 
 + [Lab 8](#lab-8)
