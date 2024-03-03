@@ -84,6 +84,7 @@ Let's switch to the wolves data. Brandell, Ellen E (2021), Serological dataset a
 ```{r}
 wolves <- readr::read_csv("/Users/aminamuhic/Desktop/BIS15W2024_amuhic/lab13/data/wolves_data/wolves_dataset.csv")
 ```
+
 ```{r}
 glimpse(wolves)
 ```
